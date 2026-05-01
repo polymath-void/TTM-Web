@@ -266,3 +266,8 @@ if (exportCsvBtn) {
  * Init
  */
 renderHistory();
+
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js");
+}

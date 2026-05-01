@@ -1,58 +1,118 @@
+/* Base */
 body {
-  font-family: Arial, sans-serif;
+  font-family: system-ui, sans-serif;
+  background: #0f1115;
+  color: #e6e6e6;
   margin: 0;
-  padding: 20px;
-  background: #f5f5f5;
+  padding: 16px;
 }
 
+/* Container */
 .container {
-  max-width: 800px;
+  max-width: 720px;
   margin: auto;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
 }
 
+/* Headline */
+h1 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+/* Sections */
 .section {
-  margin-bottom: 20px;
-}
-
-.field {
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-}
-
-input, select {
-  padding: 8px;
-  margin-top: 5px;
-}
-
-button {
+  margin-bottom: 14px;
   padding: 10px;
+  background: #151923;
+  border-radius: 10px;
+}
+
+/* Labels */
+label {
+  display: block;
+  font-size: 12px;
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+/* Inputs */
+input, select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #2a2f3a;
+  background: #0f1115;
+  color: #fff;
+  outline: none;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 10px;
+  background: #2d6cdf;
+  color: white;
+  font-weight: 600;
   cursor: pointer;
 }
 
+button:hover {
+  background: #2456b3;
+}
+
+/* Error */
+.error {
+  background: #3a1d1d;
+  color: #ffb3b3;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+/* Result */
+.result {
+  background: #111827;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th, td {
+  text-align: left;
+  padding: 6px;
+  border-bottom: 1px solid #222;
+}
+
+/* Grand total emphasis */
+.grand-total {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Hidden fields */
 .hidden {
   display: none;
 }
 
-.error {
-  color: red;
-  margin-bottom: 10px;
+/* History */
+#historyList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.result table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.result th, .result td {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-.grand-total {
-  margin-top: 10px;
-  font-weight: bold;
+#historyList li {
+  font-size: 12px;
+  padding: 6px;
+  border-bottom: 1px solid #222;
+  opacity: 0.85;
 }

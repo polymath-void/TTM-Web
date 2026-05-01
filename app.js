@@ -235,7 +235,7 @@ function handleCalculate() {
 
     render(result);
     renderHistory();
-
+	resultBox.scrollIntoView({ behavior: 'smooth' });
   } catch (err) {
     showError(err.message);
   }

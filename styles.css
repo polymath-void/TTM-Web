@@ -116,3 +116,21 @@ th, td {
   border-bottom: 1px solid #222;
   opacity: 0.85;
 }
+
+
+/* Button group spacing */
+.button-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Separate export buttons visually */
+.export-btn {
+  background: #1f2937;
+  border: 1px solid #2a2f3a;
+}
+
+.export-btn:hover {
+  background: #2b3647;
+}

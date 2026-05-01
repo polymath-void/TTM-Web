@@ -1,82 +1,161 @@
-/* Base */
+/* =========================
+   BASE THEME
+========================= */
+
+:root {
+  --bg: #0b0f14;
+  --panel: #111826;
+  --panel-2: #0f1622;
+
+  --text: #e6e8ee;
+  --muted: #9aa4b2;
+
+  --border: #1f2a3a;
+
+  --accent: #4c7dff;
+  --accent-hover: #3b6cf0;
+
+  --danger: #ff5c5c;
+
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: system-ui, sans-serif;
-  background: #0f1115;
-  color: #e6e6e6;
   margin: 0;
   padding: 16px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
 }
 
-/* Container */
+/* =========================
+   LAYOUT
+========================= */
+
 .container {
-  max-width: 720px;
-  margin: auto;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
-/* Headline */
+/* Title */
 h1 {
   font-size: 20px;
-  margin-bottom: 16px;
   font-weight: 600;
+  margin: 8px 0 18px;
+  color: var(--text);
 }
 
-/* Sections */
+/* Section cards */
 .section {
-  margin-bottom: 14px;
-  padding: 10px;
-  background: #151923;
-  border-radius: 10px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  margin-bottom: 12px;
 }
 
-/* Labels */
+/* =========================
+   FORM ELEMENTS
+========================= */
+
 label {
-  display: block;
   font-size: 12px;
-  opacity: 0.7;
-  margin-bottom: 4px;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 6px;
 }
 
-/* Inputs */
-input, select {
+input,
+select {
   width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #2a2f3a;
-  background: #0f1115;
-  color: #fff;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  color: var(--text);
   outline: none;
+  font-size: 14px;
 }
 
-/* Button */
+input:focus,
+select:focus {
+  border-color: var(--accent);
+}
+
+/* =========================
+   BUTTON SYSTEM
+========================= */
+
 button {
   width: 100%;
   padding: 12px;
-  border: 0;
   border-radius: 10px;
-  background: #2d6cdf;
-  color: white;
+  border: 1px solid var(--border);
+  background: #1a2333;
+  color: var(--text);
   font-weight: 600;
   cursor: pointer;
+  transition: 0.15s ease;
 }
 
 button:hover {
-  background: #2456b3;
+  background: #223049;
+  border-color: #2c3c55;
 }
 
-/* Error */
+/* Primary action (Calculate) */
+#calculateBtn {
+  background: var(--accent);
+  border: none;
+  color: white;
+}
+
+#calculateBtn:hover {
+  background: var(--accent-hover);
+}
+
+/* Export buttons */
+.button-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.export-btn {
+  background: #151d2b;
+  border: 1px solid var(--border);
+}
+
+.export-btn:hover {
+  background: #1c2637;
+}
+
+/* =========================
+   ERROR
+========================= */
+
 .error {
-  background: #3a1d1d;
-  color: #ffb3b3;
+  background: rgba(255, 92, 92, 0.12);
+  border: 1px solid rgba(255, 92, 92, 0.25);
+  color: var(--danger);
   padding: 10px;
-  border-radius: 8px;
+  border-radius: var(--radius);
   font-size: 13px;
 }
 
-/* Result */
+/* =========================
+   RESULT TABLE
+========================= */
+
 .result {
-  background: #111827;
-  padding: 10px;
-  border-radius: 10px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 12px;
+  border-radius: var(--radius);
 }
 
 table {
@@ -85,25 +164,29 @@ table {
   font-size: 13px;
 }
 
-th, td {
+th {
   text-align: left;
-  padding: 6px;
-  border-bottom: 1px solid #222;
+  font-size: 12px;
+  color: var(--muted);
+  padding-bottom: 8px;
 }
 
-/* Grand total emphasis */
+td {
+  padding: 8px 4px;
+  border-top: 1px solid var(--border);
+}
+
 .grand-total {
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 14px;
   font-weight: 700;
+  color: var(--text);
 }
 
-/* Hidden fields */
-.hidden {
-  display: none;
-}
+/* =========================
+   HISTORY
+========================= */
 
-/* History */
 #historyList {
   list-style: none;
   padding: 0;
@@ -111,26 +194,16 @@ th, td {
 }
 
 #historyList li {
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--border);
   font-size: 12px;
-  padding: 6px;
-  border-bottom: 1px solid #222;
-  opacity: 0.85;
+  color: var(--muted);
 }
 
+/* =========================
+   UTILS
+========================= */
 
-/* Button group spacing */
-.button-row {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* Separate export buttons visually */
-.export-btn {
-  background: #1f2937;
-  border: 1px solid #2a2f3a;
-}
-
-.export-btn:hover {
-  background: #2b3647;
+.hidden {
+  display: none;
 }

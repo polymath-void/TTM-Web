@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deed Pay Order Calculator</title>
+
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="module" src="./app.js"></script>
+  
+  <link rel="icon" href="data:,">
+  
+</head>
+<body>
+
+  <div class="container">
+
+    <h1>Deed Pay Order Calculator</h1>
+
+    <div class="section">
+      <label for="deedType">Select Deed Type</label>
+      <select id="deedType">
+        <option value="">-- Select --</option>
+        <option value="SALE_VILLAGE">Sale - Village</option>
+        <option value="SALE_TOWN">Sale - Town</option>
+        <option value="SALE_TOWN_LAND">Sale - Town (Land Size)</option>
+        <option value="SALE_TOWN_FLAT">Sale - Town (Flat)</option>
+        <option value="SALE_TOWN_SHOP">Sale - Town (Shop)</option>
+        <option value="DEED_GIFT">Deed of Gift</option>
+      </select>
+    </div>
+
+    <div id="inputContainer" class="section">
+      <div class="field">
+        <label>Deed Amount</label>
+        <input type="number" id="deed_amount" />
+      </div>
+
+      <div class="field">
+        <label>Stamp Attached</label>
+        <input type="number" id="stamp_attached" />
+      </div>
+
+      <div class="field hidden" id="land_size_field">
+        <label>Land Size</label>
+        <input type="number" id="land_size" />
+      </div>
+
+      <div class="field hidden" id="square_feet_field">
+        <label>Square Feet</label>
+        <input type="number" id="square_feet" />
+      </div>
+
+      <div class="field hidden" id="per_dsm_price_field">
+        <label>Per DSM Price</label>
+        <input type="number" id="per_dsm_price" />
+      </div>
+    </div>
+
+    <div class="section">
+      <button id="calculateBtn">Calculate</button>
+    </div>
+
+    <div id="errorBox" class="error hidden"></div>
+
+    <div id="resultBox" class="result hidden">
+      <h2>Breakdown</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Base</th>
+            <th>Bank Fee</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="resultBody"></tbody>
+      </table>
+
+      <div class="grand-total">
+        GRAND TOTAL: <span id="grandTotal">0</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <button id="exportJsonBtn">Export JSON</button>
+      <button id="exportCsvBtn">Export CSV</button>
+    </div>
+    
+    <div class="section">
+      <h3>History</h3>
+      <ul id="historyList"></ul>
+    </div>
+
+  </div>
+
+ 
+
+</body>
+</html>

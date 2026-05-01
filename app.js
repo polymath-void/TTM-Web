@@ -1,7 +1,7 @@
 'use strict';
 
-import { calculate } from '../core/engine.js';
-import { validate } from '../core/validator.js';
+import { calculate } from './core/engine.js';
+import { validate } from './core/validator.js';
 
 /**
  * State

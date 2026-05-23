@@ -25,7 +25,7 @@ function computeBase(rule, input) {
       return percent(deed, rule.rate);
 
     case 'LAND_FIXED':
-      return multiply(input.land_size || 0, 2500);
+      return multiply(input.land_size || 0, 25000);
 
     case 'DSM_PERCENT':
       return percent(input.per_dsm_price || 0, rule.rate);

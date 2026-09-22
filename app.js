@@ -2,14 +2,12 @@
 
 import { calculate } from './core/engine.js';
 import { validate } from './core/validator.js';
+import { saveHistory, loadHistory } from './core/db.js';
 
 /**
  * State
  */
 let lastResult = null;
-
-const HISTORY_KEY = 'ttm_history';
-const HISTORY_LIMIT = 10;
 
 /**
  * DOM references
@@ -99,64 +97,73 @@ function exportCSV(result) {
   downloadFile('pay_order.csv', csv, 'text/csv');
 }
 
-/**
- * History storage
- */
-function saveHistory(entry) {
-  let history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+function copyToClipboard(result) {
+  let text = 'Deed Pay Order Calculator - Result\n\n';
+  text += 'Breakdown:\n';
+  
+  result.breakdown.forEach(r => {
+    text += `- ${r.name}: Base(${r.base}), Bank Fee(${r.bank_fee}) -> Total: ${r.total}\n`;
+  });
 
-  history.unshift(entry);
+  text += `\nGRAND TOTAL: ${result.grand_total}\n`;
 
-  if (history.length > HISTORY_LIMIT) {
-    history = history.slice(0, HISTORY_LIMIT);
-  }
-
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    const originalText = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => {
+      btn.textContent = originalText;
+    }, 2000);
+  }).catch(err => {
+    console.error('Failed to copy', err);
+    alert('Failed to copy to clipboard');
+  });
 }
 
-function loadHistory() {
-  return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
-}
+const DEED_NAMES = {
+  SALE_VILLAGE: 'Sale - Village',
+  SALE_TOWN: 'Sale - Town',
+  SALE_TOWN_LAND: 'Sale - Town (Land Size)',
+  SALE_TOWN_FLAT: 'Sale - Town (Flat)',
+  SALE_TOWN_SHOP: 'Sale - Town (Shop)',
+  DEED_GIFT: 'Deed of Gift'
+};
 
 /**
  * History UI
  */
-function renderHistory() {
+async function renderHistory() {
   if (!historyList) return;
 
   historyList.innerHTML = '';
 
-  const history = loadHistory();
+  const history = await loadHistory();
 
   history.forEach(item => {
     const li = document.createElement('li');
 
-    const time = new Date(item.timestamp).toLocaleTimeString();
-
+    const time = new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const input = item.input;
 
-    // Build compact input summary
     const parts = [
       `Deed: ${input.deed_amount}`,
       `Stamp: ${input.stamp_attached}`
     ];
 
-    if (input.land_size > 0) {
-      parts.push(`Land: ${input.land_size}`);
-    }
-
-    if (input.square_feet > 0) {
-      parts.push(`Sqft: ${input.square_feet}`);
-    }
-
-    if (input.per_dsm_price > 0) {
-      parts.push(`DSM: ${input.per_dsm_price}`);
-    }
+    if (input.land_size > 0) parts.push(`Land: ${input.land_size}`);
+    if (input.square_feet > 0) parts.push(`Sqft: ${input.square_feet}`);
+    if (input.per_dsm_price > 0) parts.push(`DSM: ${input.per_dsm_price}`);
 
     const inputSummary = parts.join(', ');
 
-    li.textContent =
-      `${time} | ${item.type} | ${inputSummary} | Total: ${item.result.grand_total}`;
+    li.innerHTML = `
+      <div class="hist-header">
+        <span class="hist-type">${DEED_NAMES[item.type] || item.type}</span>
+        <span class="hist-time">${time}</span>
+      </div>
+      <div class="hist-summary">${inputSummary}</div>
+      <div class="hist-total">Total: <strong>${item.result.grand_total}</strong></div>
+    `;
 
     historyList.appendChild(li);
   });
@@ -208,7 +215,7 @@ function render(result) {
 /**
  * Main calculation
  */
-function handleCalculate() {
+async function handleCalculate() {
   resetUI();
 
   try {
@@ -226,7 +233,7 @@ function handleCalculate() {
 
     lastResult = result;
 
-    saveHistory({
+    await saveHistory({
       timestamp: Date.now(),
       type,
       input,
@@ -234,7 +241,7 @@ function handleCalculate() {
     });
 
     render(result);
-    renderHistory();
+    await renderHistory();
 	resultBox.scrollIntoView({ behavior: 'smooth' });
   } catch (err) {
     showError(err.message);
@@ -247,8 +254,15 @@ function handleCalculate() {
 deedTypeEl.addEventListener('change', handleDeedChange);
 calculateBtn.addEventListener('click', handleCalculate);
 
+const copyBtn = document.getElementById('copyBtn');
 const exportJsonBtn = document.getElementById('exportJsonBtn');
 const exportCsvBtn = document.getElementById('exportCsvBtn');
+
+if (copyBtn) {
+  copyBtn.addEventListener('click', () => {
+    if (lastResult) copyToClipboard(lastResult);
+  });
+}
 
 if (exportJsonBtn) {
   exportJsonBtn.addEventListener('click', () => {

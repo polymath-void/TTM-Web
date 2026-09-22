@@ -38,6 +38,17 @@ function computeBase(rule, input) {
   }
 }
 
+const DISPLAY_NAMES = {
+  STAMP: 'Stamp Duty',
+  REG_FEE: 'Registration Fee',
+  LOCAL_TAX: 'Local Tax',
+  LOCAL_TAX_1: 'Local Tax 1',
+  INCOME_TAX_2: 'Income Tax 2',
+  TOWN_TAX: 'Town Tax',
+  INCOME_TAX: 'Income Tax',
+  VAT: 'VAT'
+};
+
 export function calculate(deedType, input) {
   const rules = RULES[deedType];
 
@@ -50,10 +61,16 @@ export function calculate(deedType, input) {
 
   for (const rule of rules) {
     const base = computeBase(rule, input);
-    const result = withBankFee(base);
+    
+    let result;
+    if (['LOCAL_TAX', 'LOCAL_TAX_1', 'INCOME_TAX', 'VAT', 'INCOME_TAX_2'].includes(rule.name)) {
+      result = { base, bank_fee: 0, total: base };
+    } else {
+      result = withBankFee(base);
+    }
 
     breakdown.push({
-      name: rule.name,
+      name: DISPLAY_NAMES[rule.name] || rule.name,
       base: result.base,
       bank_fee: result.bank_fee,
       total: result.total
